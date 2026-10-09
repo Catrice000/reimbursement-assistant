@@ -20,7 +20,7 @@ class AppTests(unittest.TestCase):
    self.assertEqual([c['id'] for c in server.list_claims(db,self.employee)],['R-0001']);self.assertEqual(len(server.list_claims(db,self.finance)),2)
    with self.assertRaises(server.Problem):server.list_claims(db,self.admin)
    with self.assertRaises(server.Problem):server.update_claim(db,self.employee,'R-0002',{'status':'已完成','note':'假的'})
-   server.update_claim(db,self.finance,'R-0001',{'status':'待补充材料','note':'缺发票'});self.assertEqual(server.list_claims(db,self.employee)[0]['note'],'缺发票');self.assertEqual(db.execute('SELECT count(*) FROM audit').fetchone()[0],1)
+   server.update_claim(db,self.finance,'R-0001',{'status':'待补充材料','note':'缺发票','revision':0});self.assertEqual(server.list_claims(db,self.employee)[0]['note'],'缺发票');self.assertEqual(db.execute('SELECT count(*) FROM audit').fetchone()[0],1)
  def test_revision(self):
   with server.connect() as db:
    data=dict(db.execute('SELECT * FROM policies WHERE id=1').fetchone());data['version']='2026.2'
